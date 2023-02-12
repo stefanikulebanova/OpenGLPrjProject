@@ -14,3 +14,7 @@
 	path = vendor/stb
 	url = https://github.com/nothings/stb.git
 	branch = master
+[submodule "vendor/vcpkg"]
+	path = vendor/vcpkg
+	url = https://github.com/Microsoft/vcpkg.git
+	branch = master

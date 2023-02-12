@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(OpenGLPrj)
+project(OpenGLPrjProject)
 
 option(GLFW_BUILD_DOCS OFF)
 option(GLFW_BUILD_EXAMPLES OFF)
@@ -15,14 +15,18 @@ else()
     endif()
 endif()
 
+find_package(freetype REQUIRED)
+
 include_directories(include/
                     vendor/glad/include/
                     vendor/glfw/include/
                     vendor/glm/
-                    vendor/stb/)
+                    vendor/stb/
+                    lib/)
 
 file(GLOB VENDORS_SOURCES vendor/glad/src/glad.c)
-file(GLOB PROJECT_HEADERS include/*.hpp)
+file(GLOB PROJECT_HEADERS include/*.hpp
+                          include/*.h)
 file(GLOB PROJECT_SOURCES src/*.cpp)
 file(GLOB PROJECT_SHADERS shaders/*.comp
                           shaders/*.frag
@@ -35,7 +39,8 @@ file(GLOB PROJECT_CONFIGS CMakeLists.txt
                           Readme.md
                          .gitattributes
                          .gitignore
-                         .gitmodules)
+                         .gitmodules
+                         )
 
 source_group("include" FILES ${PROJECT_HEADERS})
 source_group("shaders" FILES ${PROJECT_SHADERS})
@@ -44,12 +49,19 @@ source_group("vendors" FILES ${VENDORS_SOURCES})
 
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
+
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${PROJECT_HEADERS}
                                ${PROJECT_SHADERS} ${PROJECT_CONFIGS}
-                               ${VENDORS_SOURCES})
+                               ${VENDORS_SOURCES} "include/game.h" 
+                               "include/texture.h" "src/shader.cpp" "include/texture.h" 
+                               "src/texture.cpp" "include/resource.h" "src/resource.cpp" "src/sprite_renderer.cpp" 
+                               "include/game_object.h" "src/gameObject.cpp" "include/text_renderer.h" "src/text_renderer.cpp"
+                                "include/ft2build.h" "include/freetype" "include/irrKlang")
 target_link_libraries(${PROJECT_NAME}
 		      glfw
                       ${GLFW_LIBRARIES} ${GLAD_LIBRARIES}
+                      "C:/Users/Stefani K/Source/Repos/OpenGLPrjProject/lib/freetype.lib"
+                      "C:/Users/Stefani K/Source/Repos/OpenGLPrjProject/lib/irrKlang.lib"
 		      )
 set_target_properties(${PROJECT_NAME} PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
